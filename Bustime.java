@@ -5,7 +5,7 @@ public class Bustime {
 	public static void main (String[] args){
 
 		ArrayList<Bus> table = new ArrayList<Bus>();
-		tableRead ("regbus.txt", true, table );
+		tableRead ("regbus.txt", false, table );
 		
 		int len = table.size();
 		for( int i=0; i< len; i++ ){
@@ -56,7 +56,7 @@ class Bus {
 			return time.get(Calendar.HOUR_OF_DAY)+
 				":"+
 				time.get(Calendar.MINUTE)+
-				" twinliner";
+				" regular";
 	}
 	public int compareTo(Object obj) {
 		return this.time.compareTo(((Bus)obj).getTime());
