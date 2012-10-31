@@ -6,10 +6,27 @@ public class Bustime {
 
 		ArrayList<Bus> table = new ArrayList<Bus>();
 		tableRead ("regbus.txt", false, table );
+		tableRead ("twinbus.txt", true, table );
+		Bus[] array = (Bus[])(table.toArray( new Bus[0] )); 
+		Arrays.sort( array );
 		
-		int len = table.size();
-		for( int i=0; i< len; i++ ){
-			System.out.println( table.get(i) );
+		Calendar bustime;
+		Calendar begin = Calendar.getInstance();
+
+		Calendar end = Calendar.getInstance();
+
+		System.out.println( "Current Time is "
+				+end.get(Calendar.HOUR_OF_DAY) +":"+
+				+end.get(Calendar.MINUTE) +":"+
+				+end.get(Calendar.SECOND) );		
+
+		begin.add(Calendar.MINUTE,-10);
+		end.add(Calendar.MINUTE,30);
+		
+		for( int i=0; i< array.length; i++ ){
+			bustime = array[i].getTime();
+			if( bustime.after(begin) && bustime.before(end) )
+				System.out.println( array[i] );
 		}
 	}
 	public static void tableRead (String filename, boolean twin, ArrayList<Bus> table ){
@@ -29,8 +46,8 @@ public class Bustime {
 		}
 	}
 }
-class Bus {
-//  implements Comparable
+class Bus implements Comparable{
+
 	private Calendar time;
 	private boolean twin;
 	
@@ -55,8 +72,7 @@ class Bus {
 		else
 			return time.get(Calendar.HOUR_OF_DAY)+
 				":"+
-				time.get(Calendar.MINUTE)+
-				" regular";
+				time.get(Calendar.MINUTE);
 	}
 	public int compareTo(Object obj) {
 		return this.time.compareTo(((Bus)obj).getTime());
